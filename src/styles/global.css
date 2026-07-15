@@ -1,0 +1,20 @@
+@import '@fontsource-variable/fraunces';
+
+:root {
+  --font-serif: "Fraunces Variable", serif;
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-muted: #888888;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-serif);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
