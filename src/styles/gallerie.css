@@ -1,0 +1,90 @@
+.gallerie {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px); /* adjust if your navbar height differs */
+}
+
+.gallerie-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.gallerie-world {
+  position: relative;
+  width: 100%;
+}
+
+.gallerie-card {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 16px;
+  background: #f2f2f0;
+  cursor: pointer;
+}
+
+.gallerie-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.gallerie-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40px;
+  box-sizing: border-box;
+  cursor: zoom-out;
+  animation: gallerie-fade-in 0.2s ease;
+}
+
+.gallerie-lightbox-img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  cursor: default;
+  animation: gallerie-scale-in 0.25s ease;
+}
+
+.gallerie-lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+@keyframes gallerie-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gallerie-scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.gallerie-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 100px);
+  color: #888;
+  font-family: "Fraunces Variable", Georgia, serif;
+  text-align: center;
+  padding: 0 20px;
+}

@@ -1,0 +1,49 @@
+.apropos {
+  display: grid;
+  grid-template-columns: minmax(240px, 340px) 1fr;
+  gap: 48px;
+  padding: 40px 5%;
+  align-items: start;
+}
+
+.apropos-video-col {
+  position: sticky;
+  top: 40px;
+  align-self: start;
+  max-width: 340px;
+}
+
+.apropos-video {
+  width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  display: block;
+}
+
+.apropos-text-col {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.apropos-text-col p {
+  margin-bottom: 28px;
+}
+
+.apropos-highlight {
+  color: #7a5cb8;
+}
+
+/* Sticky is disabled below this breakpoint (width or height) — on a short
+   or narrow viewport a pinned video eats the screen while someone reads. */
+@media (max-width: 800px), (max-height: 500px) {
+  .apropos {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px 6%;
+  }
+
+  .apropos-video-col {
+    position: static;
+  }
+}
