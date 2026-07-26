@@ -11,7 +11,26 @@ const modules = import.meta.glob("../assets/photo/gallerie/*.{jpg,jpeg,png,webp}
   eager: true,
   import: "default",
 });
-const IMAGE_SOURCES = Object.values(modules);
+
+// Optional metadata per image, keyed by filename (the part after the last "/").
+// Add an entry here whenever you want a title/technique to show up in the
+// lightbox — images without an entry still display, just without a caption.
+const ARTWORK_INFO = {
+  "gallerie-1.jpg": { title: "Complicité", technique: "Huile sur toile, 40 × 50 cm, 2025" },
+  // "gallerie-2.jpg": { title: "...", technique: "..., .. × .. cm, ...." },
+};
+
+const IMAGE_ENTRIES = Object.entries(modules).map(([path, src]) => {
+  const filename = path.split("/").pop();
+  return { src, filename, info: ARTWORK_INFO[filename] || null };
+});
+
+// TEMP DEBUG: prints every detected filename to the browser console, so you
+// can copy the exact names into ARTWORK_INFO above. Remove this once done.
+console.log(
+  "Fichiers détectés dans gallerie/:",
+  IMAGE_ENTRIES.map((e) => e.filename)
+);
 
 const GAP = 32;
 const BUFFER_PX = 400;
@@ -75,7 +94,7 @@ export default function Gallerie() {
   const [ratios, setRatios] = useState({});
 
   useEffect(() => {
-    IMAGE_SOURCES.forEach((src) => {
+    IMAGE_ENTRIES.forEach(({ src }) => {
       const img = new Image();
       img.onload = () => {
         setRatios((prev) => ({ ...prev, [src]: img.naturalHeight / img.naturalWidth }));
@@ -86,10 +105,12 @@ export default function Gallerie() {
 
   const items = useMemo(
     () =>
-      IMAGE_SOURCES.map((src, i) => ({
-        src,
-        alt: `Œuvre ${i + 1}`,
-        ratio: ratios[src] || 1,
+      IMAGE_ENTRIES.map((entry, i) => ({
+        src: entry.src,
+        alt: entry.info?.title || `Œuvre ${i + 1}`,
+        title: entry.info?.title || null,
+        technique: entry.info?.technique || null,
+        ratio: ratios[entry.src] || 1,
       })),
     [ratios]
   );
@@ -158,7 +179,7 @@ export default function Gallerie() {
     }
   });
 
-  if (IMAGE_SOURCES.length === 0) {
+  if (IMAGE_ENTRIES.length === 0) {
     return (
       <div className="gallerie-empty">
         Ajoute des photos dans src/assets/photo/gallerie/ pour remplir la galerie.
@@ -183,12 +204,23 @@ export default function Gallerie() {
           >
             ✕
           </button>
-          <img
-            src={selectedImage.src}
-            alt={selectedImage.alt}
-            className="gallerie-lightbox-img"
-            onClick={(e) => e.stopPropagation()} // clicking the image itself shouldn't close it
-          />
+          <div className="gallerie-lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={selectedImage.src}
+              alt={selectedImage.alt}
+              className="gallerie-lightbox-img"
+            />
+            {(selectedImage.title || selectedImage.technique) && (
+              <div className="gallerie-lightbox-caption">
+                {selectedImage.title && (
+                  <p className="gallerie-lightbox-title">{selectedImage.title}</p>
+                )}
+                {selectedImage.technique && (
+                  <p className="gallerie-lightbox-technique">{selectedImage.technique}</p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

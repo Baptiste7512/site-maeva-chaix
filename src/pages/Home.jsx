@@ -33,9 +33,9 @@ export default function Home() {
           </p>
           <p>
             Je me consacre aujourd'hui à la création de{" "}
-            portraits personnalisés <span className="highlight">peints à la main</span>. Qu'il
+            <span className="highlight">portraits personnalisés peints à la main</span>. Qu'il
             s'agisse de capturer le regard de votre animal de compagnie ou d'immortaliser le
-            lien unique qui vous unit à lui, chaque peinture raconte <span className="highlight">une histoire</span>.
+            lien unique qui vous unit à lui, chaque peinture raconte une histoire.
           </p>
 
           <h2 className="home-hero-title">Une démarche sur-mesure et durable</h2>
@@ -43,7 +43,7 @@ export default function Home() {
             Toutes mes œuvres sont réalisées sur commande au sein de mon atelier. J'accorde une
             importance toute particulière au choix de mes matériaux, sélectionnés pour leur
             qualité professionnelle, garantissant ainsi des tableaux durables que vous pourrez
-            <span className="highlight"> chérir </span>longtemps. Pour ces projets je travaille à partir de photos, la composition
+            chérir longtemps. Pour ces projets je travaille à partir de photos, la composition
             pourra être amenée à changer (avec votre validation évidemment).
           </p>
 
@@ -55,7 +55,7 @@ export default function Home() {
           </p>
           <p>
             Répondre à cette demande a été un déclic absolu. J'ai réalisé à quel point peindre
-            <span className="highlight">la complicité</span> entre un être humain et son animal dépassait le simple travail
+            la complicité entre un être humain et son animal dépassait le simple travail
             artistique : c'était une manière d'accompagner, d'honorer une mémoire et d'apporter
             du baume au cœur.
           </p>
