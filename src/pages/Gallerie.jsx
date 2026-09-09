@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import "../styles/gallerie.css";
+import "../styles/Gallerie.css";
 
 /**
  * Every image dropped in src/assets/photo/gallerie/ is picked up
@@ -12,25 +12,33 @@ const modules = import.meta.glob("../assets/photo/gallerie/*.{jpg,jpeg,png,webp}
   import: "default",
 });
 
-// Optional metadata per image, keyed by filename (the part after the last "/").
-// Add an entry here whenever you want a title/technique to show up in the
-// lightbox — images without an entry still display, just without a caption.
-const ARTWORK_INFO = {
-  "gallerie-1.jpg": { title: "Complicité", technique: "Huile sur toile, 40 × 50 cm, 2025" },
-  // "gallerie-2.jpg": { title: "...", technique: "..., .. × .. cm, ...." },
-};
+/**
+ * Le titre, la technique, la taille et l'année sont extraits directement
+ * du nom du fichier, au format :
+ *   "Titre, technique, taille cm, année.jpg"
+ * Exemple : "La chaumière, huile sur toile, 40 x 50 cm, 2025.jpg"
+ * Si le nom ne contient pas de virgule, l'image s'affiche quand même,
+ * simplement sans légende.
+ */
+function parseArtworkFilename(filename) {
+  const nameWithoutExt = filename.replace(/\.[^/.]+$/, "");
+  const parts = nameWithoutExt.split(",").map((p) => p.trim()).filter(Boolean);
+
+  if (parts.length < 2) {
+    // Pas assez d'infos dans le nom -> pas de légende
+    return { title: parts[0] || null, technique: null };
+  }
+
+  const [title, ...rest] = parts;
+  const technique = rest.join(", ");
+  return { title, technique };
+}
 
 const IMAGE_ENTRIES = Object.entries(modules).map(([path, src]) => {
   const filename = path.split("/").pop();
-  return { src, filename, info: ARTWORK_INFO[filename] || null };
+  const { title, technique } = parseArtworkFilename(filename);
+  return { src, filename, info: title ? { title, technique } : null };
 });
-
-// TEMP DEBUG: prints every detected filename to the browser console, so you
-// can copy the exact names into ARTWORK_INFO above. Remove this once done.
-console.log(
-  "Fichiers détectés dans gallerie/:",
-  IMAGE_ENTRIES.map((e) => e.filename)
-);
 
 const GAP = 32;
 const BUFFER_PX = 400;
@@ -41,7 +49,6 @@ function getColumnsForWidth(width) {
   if (width < 1000) return 2;
   return 3;
 }
-
 // Bin-pack items (now including their measured ratio) into columns,
 // shortest-column-first, same masonry logic as before. If there are
 // fewer photos than columns, the list is cycled so every column still

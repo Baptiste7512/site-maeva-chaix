@@ -4,6 +4,8 @@
   gap: 48px;
   padding: 40px 5%;
   align-items: start;
+  height: calc(100vh - var(--navbar-height, 80px));
+  box-sizing: border-box;
 }
 
 .apropos-video-col {
@@ -24,6 +26,9 @@
   font-size: 18px;
   line-height: 1.7;
   color: #222;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 12px;
 }
 
 .apropos-text-col p {
@@ -34,16 +39,31 @@
   color: #7a5cb8;
 }
 
-/* Sticky is disabled below this breakpoint (width or height) — on a short
-   or narrow viewport a pinned video eats the screen while someone reads. */
-@media (max-width: 800px), (max-height: 500px) {
+/* Téléphone en PORTRAIT (position "normale") : on cache la vidéo,
+   seul le texte s'affiche, en scroll de page classique. */
+@media (max-width: 800px) and (orientation: portrait) {
   .apropos {
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 24px 6%;
+    height: auto;
   }
 
   .apropos-video-col {
-    position: static;
+    display: none;
+  }
+
+  .apropos-text-col {
+    height: auto;
+    overflow-y: visible;
+  }
+}
+
+/* Téléphone en LANDSCAPE (incliné) : on garde le comportement desktop
+   (grid + vidéo sticky + scroll interne du texte). */
+@media (max-width: 800px) and (orientation: landscape) {
+  .apropos {
+    gap: 24px;
+    padding: 24px 4%;
   }
 }

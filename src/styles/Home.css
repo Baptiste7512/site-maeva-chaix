@@ -69,6 +69,7 @@
   color: #7a5cb8;
 }
 
+/* Téléphone en PORTRAIT : on empile, scroll de page classique */
 @media (max-width: 700px) {
   .home {
     flex-direction: column;
@@ -91,5 +92,41 @@
   .home-hero-text {
     font-size: 18px;
     max-width: 100%;
+  }
+}
+
+/* Téléphone en LANDSCAPE (viewport court) : on garde le côte à côte,
+   mais on réduit tout pour que ça tienne dans la hauteur disponible
+   sans déborder sous la navbar. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .home {
+    height: calc(100vh - 60px);
+    gap: 24px;
+    padding: 10px 4%;
+    align-items: center;
+  }
+
+  .home-hero-image {
+    width: 200px;
+    max-width: 32vw;
+  }
+
+  .home-text-container {
+    padding: 4px 0;
+  }
+
+  .home-hero-text {
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 100%;
+  }
+
+  .home-hero-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .home-hero-text p {
+    margin: 0 0 12px;
   }
 }

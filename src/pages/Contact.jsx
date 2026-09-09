@@ -1,12 +1,12 @@
 import React from "react";
-import contactImage from "../assets/photo/contact-1.jpg";
+// import contactImage from "../assets/photo/contact-1.jpg";
 import "../styles/Contact.css";
 
 export default function Contact() {
   return (
     <div className="contact">
       <div className="contact-image-col">
-        <img src={contactImage} alt="Atelier de l'artiste" className="contact-image" />
+        {/* <img src={contactImage} alt="Atelier de l'artiste" className="contact-image" /> */}
       </div>
 
       <div className="contact-info-col">
