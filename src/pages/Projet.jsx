@@ -11,7 +11,7 @@ const PROJETS = [
   { date: "2024-11-02", nom: "archive de rencontre", slug: "archive de rencontre" },
   { date: "2026-01-20", nom: "chateau", slug: "chateau" },
   { date: "2026-01-20", nom: "epuisement", slug: "epuisement" },
-  { date: "2026-01-20", nom: "La muse", slug: "muse" },
+  { date: "2026-01-20", nom: "La muse", slug: "La Muse" },
 ]
 
 const COLUMNS = [
