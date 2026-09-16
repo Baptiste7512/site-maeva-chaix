@@ -19,10 +19,29 @@ const COLUMNS = [
   { key: "nom", label: "Nom du projet" },
 ];
 
-// --- Chargement automatique des images, vidéos et descriptions ---
-// Tous les médias (images + vidéos) de tous les dossiers de projets (eager: chargés tout de suite)
-const mediaModules = import.meta.glob(
-  "/src/assets/projets/*/*.{jpg,jpeg,png,webp,mp4,mov,webm}",
+// --- Vidéos hébergées sur Cloudinary ---
+// Les vidéos sont trop lourdes pour être versionnées dans le repo Git,
+// elles sont donc hébergées sur Cloudinary et référencées ici manuellement,
+// regroupées par slug de projet (voir PROJETS ci-dessus).
+const CLOUDINARY_VIDEOS_BY_SLUG = {
+  "archive de rencontre": [
+    "https://res.cloudinary.com/ljauyojb/video/upload/v1789597473/Portrait_Maeva_-_Sternafilms.mp4",
+  ],
+  "epuisement": [
+    "https://res.cloudinary.com/ljauyojb/video/upload/v1789598960/silhouette_me%CC%81moire_II_de%CC%81coupage_et_nume%CC%81risation_14_8_x_21_cm_vide%CC%81o_51_sec_2025.mp4",
+    "https://res.cloudinary.com/ljauyojb/video/upload/v1789598862/Peindre_l_autre_jusqu_%C3%A0_l_%C3%A9puisement_IX_-_compressed2.mp4",
+    "https://res.cloudinary.com/ljauyojb/video/upload/v1789597651/A%CC%80_la_me%CC%81moire_du_me%CC%81moire_II_de%CC%81coupage_et_combustion_d_un_me%CC%81moire_14_8_x_21_cm_vide%CC%81o_1m10_2025.mov",
+    "https://res.cloudinary.com/ljauyojb/video/upload/v1789597646/A%CC%80_la_me%CC%81moire_du_me%CC%81moire_II_techniques_mixtes.mp4",
+    "https://res.cloudinary.com/ljauyojb/video/upload/v1789597644/A%CC%80_la_me%CC%81moire_du_me%CC%81moire_I_techniques_mixtes.mp4",
+    "https://res.cloudinary.com/ljauyojb/video/upload/v1789597564/silhouette_me%CC%81moire_I_feutre_et_nume%CC%81risation_14_8_x_21_cm_vide%CC%81o_42_sec_2025.mp4",
+  ],
+};
+
+// --- Chargement automatique des images et descriptions ---
+// Seules les images sont chargées automatiquement depuis src/assets/projets/*
+// (eager: chargées tout de suite). Les vidéos viennent de Cloudinary, voir ci-dessus.
+const imageModules = import.meta.glob(
+  "/src/assets/projets/*/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}",
   { eager: true, import: "default" }
 );
 // Tous les fichiers description.txt, importés en texte brut
@@ -31,13 +50,6 @@ const textModules = import.meta.glob("/src/assets/projets/*/description.txt", {
   query: "?raw",
   import: "default",
 });
-
-// Extensions vidéo, pour distinguer image/vidéo au moment de l'affichage
-const VIDEO_EXTENSIONS = ["mp4", "mov", "webm"];
-const isVideo = (path) => {
-  const ext = path.split(".").pop().toLowerCase();
-  return VIDEO_EXTENSIONS.includes(ext);
-};
 
 // Mélange aléatoire d'un tableau (Fisher-Yates), sans modifier l'original
 function shuffle(array) {
@@ -53,16 +65,28 @@ function shuffle(array) {
 function buildAssetsBySlug() {
   const bySlug = {};
 
-  for (const path in mediaModules) {
+  for (const path in imageModules) {
     // path ressemble à /src/assets/projets/chateau/2.jpg
     const match = path.match(/\/projets\/([^/]+)\//);
     if (!match) continue;
     const slug = match[1];
     if (!bySlug[slug]) bySlug[slug] = { medias: [], description: "" };
     bySlug[slug].medias.push({
-      src: mediaModules[path],
-      type: isVideo(path) ? "video" : "image",
+      src: imageModules[path],
+      type: "image",
       path, // gardé pour référence
+    });
+  }
+
+  // Ajout des vidéos Cloudinary
+  for (const slug in CLOUDINARY_VIDEOS_BY_SLUG) {
+    if (!bySlug[slug]) bySlug[slug] = { medias: [], description: "" };
+    CLOUDINARY_VIDEOS_BY_SLUG[slug].forEach((url) => {
+      bySlug[slug].medias.push({
+        src: url,
+        type: "video",
+        path: url, // gardé pour référence / tri
+      });
     });
   }
 
