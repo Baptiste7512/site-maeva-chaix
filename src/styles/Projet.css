@@ -1,8 +1,60 @@
-.projets-nom-clickable {
-  cursor: pointer;
-  position: relative;
+/* --- Grille de cards projet --- */
+.projets {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 3rem 4rem;
 }
 
+.projets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2.5rem 2rem;
+}
+
+.projet-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.projet-card-image-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+.projet-card-image-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.projet-card:hover .projet-card-image-wrap img {
+  transform: scale(1.03);
+}
+
+.projet-card-nom {
+  margin: 1rem 0 0.2rem 0;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #000;
+  transition: color 0.15s ease;
+}
+
+.projet-card:hover .projet-card-nom {
+  color: #666;
+}
+
+.projet-card-date {
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-style: italic;
+  color: #999;
+  margin: 0;
+}
+
+/* --- Modal (inchangé) --- */
 .projet-modal-gallery video {
   grid-column: span 2;
   width: 100%;
@@ -10,10 +62,6 @@
   object-fit: cover;
   background: #000;
   display: block;
-}
-
-.projets-nom-clickable:hover {
-  color: #000;
 }
 
 .projet-modal-backdrop {
@@ -101,9 +149,4 @@
   font-size: 0.85rem;
   font-style: italic;
   color: #999;
-}
-
-.projets-th:first-child,
-.projets-row td:first-child {
-  padding-right: 4rem;
 }

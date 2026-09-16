@@ -7,17 +7,12 @@ import "../styles/Projet.css";
  * slug = nom du dossier dans src/assets/projets/<slug>/
  */
 const PROJETS = [
-  { date: "2025-03-15", nom: "animaux", slug: "animaux" },
-  { date: "2024-11-02", nom: "archive de rencontre", slug: "archive de rencontre" },
-  { date: "2026-01-20", nom: "chateau", slug: "chateau" },
-  { date: "2026-01-20", nom: "epuisement", slug: "epuisement" },
-  { date: "2026-01-20", nom: "La muse", slug: "La Muse" },
+  { date: "2025-03-15", nom: "animaux", slug: "animaux", cover: "Agathe et Nirvana, huile sur toile, 30x30 cm, 2026" },
+  { date: "2024-11-02", nom: "archive de rencontre", slug: "archive de rencontre", cover: "Alexis, acrylique sur zinc, 30x30 cm, 2024.JPEG" },
+  { date: "2026-01-20", nom: "chateau", slug: "chateau", cover: "Château, huile sur toile, 40x40 cm, 2026" },
+  { date: "2026-01-20", nom: "epuisement", slug: "epuisement", cover: "Épuisement, huile sur toile, 30x30 cm, 2026" },
+  { date: "2026-01-20", nom: "La muse", slug: "La Muse", cover: "La Muse, huile sur toile, 35x35 cm, 2026" },
 ]
-
-const COLUMNS = [
-  { key: "date", label: "Date" },
-  { key: "nom", label: "Nom du projet" },
-];
 
 // --- Vidéos hébergées sur Cloudinary ---
 // Les vidéos sont trop lourdes pour être versionnées dans le repo Git,
@@ -109,6 +104,23 @@ function buildAssetsBySlug() {
 
 const ASSETS_BY_SLUG = buildAssetsBySlug();
 
+// Image de couverture d'un projet.
+// Si un nom de fichier est précisé dans PROJETS (champ "cover"), on l'utilise.
+// Sinon, on prend la première image (pas vidéo) du dossier, une fois trié.
+function getCoverImage(slug, coverFilename) {
+  const medias = ASSETS_BY_SLUG[slug]?.medias || [];
+
+  if (coverFilename) {
+    const match = medias.find(
+      (m) => m.type === "image" && m.path.endsWith("/" + coverFilename)
+    );
+    if (match) return match.src;
+  }
+
+  const firstImage = medias.find((m) => m.type === "image");
+  return firstImage?.src || null;
+}
+
 // --- Composant Modal ---
 function ProjetModal({ projet, onClose }) {
   // On calcule assets et le mélange AVANT le early return, pour respecter
@@ -157,72 +169,39 @@ function ProjetModal({ projet, onClose }) {
 }
 
 export default function Projets() {
-  // direction: "asc" ou "desc". Par défaut la date trie du plus ancien
-  // au plus récent (asc), nom et lieu trient alphabétiquement (asc).
-  const [sortConfig, setSortConfig] = useState({ key: "date", direction: "asc" });
   const [selectedProjet, setSelectedProjet] = useState(null);
 
-  const handleSort = (key) => {
-    setSortConfig((prev) => {
-      if (prev.key === key) {
-        return { key, direction: prev.direction === "asc" ? "desc" : "asc" };
-      }
-      return { key, direction: "asc" };
-    });
-  };
-
+  // Du plus récent au plus ancien
   const sortedProjets = useMemo(() => {
-    const { key, direction } = sortConfig;
-    const sorted = [...PROJETS].sort((a, b) => {
-      let comparison = 0;
-      if (key === "date") {
-        comparison = new Date(a.date) - new Date(b.date);
-      } else {
-        comparison = a[key].localeCompare(b[key], "fr", { sensitivity: "base" });
-      }
-      return direction === "asc" ? comparison : -comparison;
-    });
-    return sorted;
-  }, [sortConfig]);
+    return [...PROJETS].sort((a, b) => new Date(b.date) - new Date(a.date));
+  }, []);
 
   const formatDate = (isoDate) => {
-    const d = new Date(isoDate);
-    return d.toLocaleDateString("fr-FR", { day: "numeric", month: "numeric", year: "2-digit" });
+    return new Date(isoDate).getFullYear();
   };
 
   return (
     <div className="projets">
-      <table className="projets-table">
-        <thead>
-          <tr>
-            {COLUMNS.map((col) => {
-              const isActive = sortConfig.key === col.key;
-              return (
-                <th
-                  key={col.key}
-                  onClick={() => handleSort(col.key)}
-                  className={`projets-th ${isActive ? "projets-th-active" : ""}`}
-                >
-                  {col.label}
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {sortedProjets.map((expo, i) => (
-            <tr key={i} className="projets-row">
-              <td>{formatDate(expo.date)}</td>
-              <td
-                className="projets-nom-clickable"
-                onClick={() => setSelectedProjet(expo)}
-              >
-                {expo.nom}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="projets-grid">
+        {sortedProjets.map((expo, i) => {
+          const cover = getCoverImage(expo.slug, expo.cover);
+          return (
+            <div
+              key={i}
+              className="projet-card"
+              onClick={() => setSelectedProjet(expo)}
+            >
+              <div className="projet-card-image-wrap">
+                {cover ? (
+                  <img src={cover} alt={expo.nom} />
+                ) : null}
+              </div>
+              <p className="projet-card-nom">{expo.nom}</p>
+              <p className="projet-card-date">{formatDate(expo.date)}</p>
+            </div>
+          );
+        })}
+      </div>
 
       <ProjetModal projet={selectedProjet} onClose={() => setSelectedProjet(null)} />
     </div>

@@ -1,1 +1,100 @@
+.contact {
+  display: grid;
+  grid-template-columns: minmax(240px, 380px) 1fr;
+  gap: 64px;
+  padding: 40px 5% 80px;
+  align-items: start;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
 
+.contact-image-col {
+  position: sticky;
+  top: 40px;
+}
+
+.contact-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.contact-info-col {
+  padding-top: 12px;
+}
+
+.contact-title {
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0 0 1rem 0;
+  color: #000;
+}
+
+.contact-intro {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #333;
+  max-width: 480px;
+  margin: 0 0 3rem 0;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #eee;
+  max-width: 480px;
+}
+
+.contact-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 1.3rem 0;
+  border-bottom: 1px solid #eee;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.15s ease;
+}
+
+.contact-link:hover {
+  opacity: 0.55;
+}
+
+.contact-link-static {
+  cursor: default;
+}
+
+.contact-link-static:hover {
+  opacity: 1;
+}
+
+.contact-link-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-style: italic;
+  color: #999;
+}
+
+.contact-link-value {
+  font-size: 1.15rem;
+  color: #000;
+}
+
+/* --- Mobile : la photo passe au-dessus, en scroll normal --- */
+@media (max-width: 800px) {
+  .contact {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 24px 6% 60px;
+  }
+
+  .contact-image-col {
+    position: static;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+}
