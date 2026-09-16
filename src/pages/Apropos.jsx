@@ -1,6 +1,6 @@
 import React from "react";
-import aboutVideo from "../assets/video/video-contact.mp4";
 import "../styles/Apropos.css";
+const aboutVideo = "https://res.cloudinary.com/ljauyojb/video/upload/v1789597953/video-contact.mov";
 
 const PARAGRAPHS = [
   [
