@@ -26,7 +26,7 @@ export default function Home() {
         <div className="home-hero-text">
           <h2 className="home-hero-title">Bienvenue dans mon univers</h2>
           <p>
-            Je m'appelle Mauve. Titulaire d'un Master en Arts Plastiques — mention Écologie des
+            Je m'appelle Maéva. Titulaire d'un Master en Arts Plastiques — mention Écologie des
             arts et des médias — de l'Université Paris 8, je place la{" "}
             <span className="highlight">sensibilité</span> et l'attention au vivant au cœur de
             ma démarche artistique.

@@ -7,13 +7,12 @@ import "../styles/Projet.css";
  * slug = nom du dossier dans src/assets/projets/<slug>/
  */
 const PROJETS = [
-  { date: "2025-03-15", nom: "animaux", slug: "animaux", cover: "Agathe et Nirvana, huile sur toile, 30x30 cm, 2026" },
+  { date: "2026-03-15", nom: "animaux", slug: "animaux", cover: "Agathe et Nirvana, huile sur toile, 30x30 cm, 2026" },
   { date: "2024-11-02", nom: "archive de rencontre", slug: "archive de rencontre", cover: "Alexis, acrylique sur zinc, 30x30 cm, 2024.JPEG" },
   { date: "2026-01-20", nom: "chateau", slug: "chateau", cover: "Château, huile sur toile, 40x40 cm, 2026" },
-  { date: "2026-01-20", nom: "epuisement", slug: "epuisement", cover: "Épuisement, huile sur toile, 30x30 cm, 2026" },
+  { date: "2025-01-20", nom: "epuisement", slug: "epuisement", cover: "Épuisement, huile sur toile, 30x30 cm, 2026", dateLabel: "2025-2026" },
   { date: "2026-01-20", nom: "La muse", slug: "La Muse", cover: "La Muse, huile sur toile, 35x35 cm, 2026" },
 ]
-
 // --- Vidéos hébergées sur Cloudinary ---
 // Les vidéos sont trop lourdes pour être versionnées dans le repo Git,
 // elles sont donc hébergées sur Cloudinary et référencées ici manuellement,
@@ -197,7 +196,7 @@ export default function Projets() {
                 ) : null}
               </div>
               <p className="projet-card-nom">{expo.nom}</p>
-              <p className="projet-card-date">{formatDate(expo.date)}</p>
+              <p className="projet-card-date">{expo.dateLabel || formatDate(expo.date)}</p>
             </div>
           );
         })}
