@@ -1,7 +1,7 @@
 import React from "react";
 import contactImage from "../assets/projets/archive de rencontre/Mur des archive, huile et acrylique sur toile, taille variable, 2022-toujuors en cours.jpeg";
 import "../styles/Contact.css";
-import contactphoto from "../assets/photo/Contact-photo.jpg"; // Assurez-vous que le chemin est correct
+import contactphoto from "../assets/photo/Contact-photo.JPG";
 
 export default function Contact() {
   return (
