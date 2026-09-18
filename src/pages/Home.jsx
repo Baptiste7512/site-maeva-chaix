@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import heroEmpty from "../assets/photo/studio-without-1.jpg";
-import heroAction from "../assets/photo/studio-with-1.jpg";
+import heroEmpty from "../assets/photo/studio-without-1.JPG";
+import heroAction from "../assets/photo/studio-with-1.JPG";
 import "../styles/Home.css";
 
 export default function Home() {
