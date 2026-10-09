@@ -65,5 +65,20 @@
   .apropos {
     gap: 24px;
     padding: 24px 4%;
+    grid-template-columns: minmax(160px, 38%) 1fr;
+    grid-template-rows: minmax(0, 1fr);   /* empêche les enfants de dépasser la hauteur */
+  }
+
+  .apropos-video-col {
+    position: static;
+    height: 100%;
+    max-width: none;
+    min-height: 0;
+  }
+
+  .apropos-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* remplit le cadre, recadre légèrement */
   }
 }
